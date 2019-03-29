@@ -1,6 +1,7 @@
 var expr=require('express');
 var hbs=require('hbs');
 const fs=require('fs');
+const port=process.env.Port||3000;
 
 var app=expr();
 hbs.registerPartials(__dirname+'/views/Partial')
@@ -10,7 +11,7 @@ app.use(expr.static(__dirname+'/public'));
 
 app.use((req,res,next)=>{
 	var now =new Date().toString();
-	var log=`${now}: ${req.method} ${req.url}`;
+	var log=`${now}: ${req.method} ${req.url} ${req.path}`;
 
 	console.log(log);
 	fs.appendFile('app.log',log +'\n');
@@ -102,6 +103,6 @@ app.get('/attendance',(req,res)=>{
 	}
 	res.send(attendance);
 });
-app.listen(3000,()=>{
-	console.log('server is upto on port 5000!');
+app.listen(port,()=>{
+	console.log('server is upto on port $(port)');
 });
